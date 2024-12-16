@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CircularProgressBar } from './components/CircularProgressBar.ts';
 import { Application } from 'pixi.js';
+import { DigitalClock } from './components/DigitalClock';
 
 // #region Pixi Application Init
 const app = new Application();
@@ -21,11 +22,22 @@ const initPixi = async () => {
 initPixi();
 // #endregion
 
+// #region Clock Setup
+const clock = new DigitalClock({
+  color: '#00b1dd',
+  fontSize: 48,
+  letterSpacing: 1
+});
+clock.x = 320;
+clock.y = 180;
+app.stage.addChild(clock);
+// #endregion
+
 // #region Progress Bar Setup
 const args = {
   backgroundColor: '#3d3d3d',
   fillColor: '#00b1dd',
-  radius: 50,
+  radius: 70,
   lineWidth: 5,
   backgroundAlpha: 0.5,
   fillAlpha: 0.8,
@@ -63,24 +75,39 @@ const startCountdown = async () => {
     if (remaining <= 0) {
       clearInterval(countdownInterval);
       progressBar.progress = 0;
+      clock.updateTime(0);
       return;
     }
 
     const progress = (remaining / countdownDuration) * 100;
     progressBar.progress = progress;
+    
+    const remainingSeconds = Math.floor(remaining / 1000);
+    clock.updateTime(remainingSeconds);
   }, 1000);
 };
 
 startCountdown();
+app.stage.addChild(progressBar);
 // #endregion
 
-app.stage.addChild(progressBar);
 </script>
 
 <template>
+  <div>
+    <!-- 这里是一个空的模板，因为我们使用 PixiJS 渲染 -->
+  </div>
 </template>
 
 <style>
+@font-face {
+  font-family: 'Digital';
+  src: url('@/assets/fonts/digi.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;  /* 优化字体加载策略 */
+}
+
 body {
   background-color: #000;
 }
