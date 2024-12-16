@@ -2,9 +2,9 @@
 import { CircularProgressBar } from './components/CircularProgressBar.ts';
 import { Application } from 'pixi.js';
 
+// #region Pixi Application Init
 const app = new Application();
 
-// 使用异步函数初始化 PixiJS 应用
 const initPixi = async () => {
   await app.init({
     width: 640,
@@ -14,14 +14,14 @@ const initPixi = async () => {
     resolution: 1,
     autoDensity: true,
     powerPreference: 'high-performance',
-  }); // 确保调用 init 方法
+  });
   document.body.appendChild(app.canvas);
 };
 
-// 调用初始化函数
 initPixi();
+// #endregion
 
-// 创建进度条
+// #region Progress Bar Setup
 const args = {
   backgroundColor: '#3d3d3d',
   fillColor: '#00b1dd',
@@ -38,8 +38,9 @@ const progressBar = new CircularProgressBar(args);
 
 progressBar.x = 320;
 progressBar.y = 180;
+// #endregion
 
-// 从服务器获取当前时间和结束时间
+// #region Countdown Logic
 const fetchServerTime = async () => {
   // const response = await fetch('https://your-server.com/api/time');
   // const data = await response.json();
@@ -51,13 +52,11 @@ const fetchServerTime = async () => {
 
 const startCountdown = async () => {
   const { currentTime, endTime } = await fetchServerTime();
-  const countdownDuration = 10 * 60 * 1000; // 10分钟倒计时
+  const countdownDuration = 10 * 60 * 1000;
   
-  // 计算初始时间偏移量（服务器时间和本地时间的差值）
   const timeOffset = Date.now() - currentTime;
 
   const countdownInterval = setInterval(() => {
-    // 使用服务器时间（本地时间减去偏移量）
     const now = Date.now() - timeOffset;
     const remaining = Math.max(0, endTime - now);
 
@@ -67,13 +66,13 @@ const startCountdown = async () => {
       return;
     }
 
-    // 更新圆形进度
     const progress = (remaining / countdownDuration) * 100;
     progressBar.progress = progress;
   }, 1000);
 };
 
 startCountdown();
+// #endregion
 
 app.stage.addChild(progressBar);
 </script>
