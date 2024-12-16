@@ -6,14 +6,15 @@ const app = new Application();
 
 const initPixi = async () => {
   await app.init({
-    width: 640,
-    height: 360,
-    backgroundColor: 0x000000,
+    width: 800,
+    height: 600,
+    backgroundColor: 0x1a1a1a,
     antialias: true,
     resolution: 1,
     autoDensity: true,
     powerPreference: 'high-performance',
   });
+
   document.body.appendChild(app.canvas);
 };
 
