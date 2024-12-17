@@ -32,7 +32,7 @@ onMounted(async () => {
 
   // 添加示例用户
   const firstCard = userList.addUser({
-    username: "用户1用户1用户1用户1用户1用户1用户1用户1用户1",
+    username: "用户1用户1用户1用户1",
     password: "password1",
     isOnline: true,
     backgroundColor: "#3498db"
@@ -47,6 +47,9 @@ onMounted(async () => {
 
   // 动态更新头像
   await firstCard.updateAvatar("https://lh3.googleusercontent.com/a/ACg8ocK5XLdBwoGFDSF5soxdp--tR0KmWX0I1UeFRm4ly3wgxSeEPA=s96-c");
+
+  // 添加淡入效果
+  await userList.fadeIn(2000); // 800ms 的淡入动画
 });
 </script>
 

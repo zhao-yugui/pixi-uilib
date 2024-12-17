@@ -7,6 +7,24 @@ export class UserList extends Container {
 
   constructor() {
     super();
+    this.alpha = 0;
+  }
+
+  async fadeIn(duration: number = 1000) {
+    const startTime = Date.now();
+    const animate = () => {
+      const currentTime = Date.now();
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      this.alpha = progress;
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
   }
 
   addUser(options: UserCardOptions) {
