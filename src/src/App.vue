@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Application } from 'pixi.js';
 import { UserList } from './components/UserList';
+import { onMounted } from 'vue';
 
 // #region Pixi Application Init
 const app = new Application();
+let userList: UserList;
 
 const initPixi = async () => {
   await app.init({
@@ -19,27 +21,32 @@ const initPixi = async () => {
   document.body.appendChild(app.canvas);
 };
 
-initPixi();
-// #endregion
+// 将异步操作移到 onMounted 中
+onMounted(async () => {
+  await initPixi();
 
-// 创建用户列表
-const userList = new UserList();
-userList.position.set(50, 50);
-app.stage.addChild(userList);
+  // 创建用户列表
+  userList = new UserList();
+  userList.position.set(50, 50);
+  app.stage.addChild(userList);
 
-// 添加示例用户
-userList.addUser({
-  username: "用户1",
-  password: "password1",
-  isOnline: true,
-  backgroundColor: "#3498db"
-});
+  // 添加示例用户
+  const firstCard = userList.addUser({
+    username: "用户1用户1用户1用户1用户1用户1用户1用户1用户1",
+    password: "password1",
+    isOnline: true,
+    backgroundColor: "#3498db"
+  });
 
-userList.addUser({
-  username: "用户2",
-  password: "password2",
-  isOnline: false,
-  backgroundColor: "#2980b9"
+  userList.addUser({
+    username: "用户2",
+    password: "password2",
+    isOnline: false,
+    backgroundColor: "#2c3e50"
+  });
+
+  // 动态更新头像
+  await firstCard.updateAvatar("https://lh3.googleusercontent.com/a/ACg8ocK5XLdBwoGFDSF5soxdp--tR0KmWX0I1UeFRm4ly3wgxSeEPA=s96-c");
 });
 </script>
 

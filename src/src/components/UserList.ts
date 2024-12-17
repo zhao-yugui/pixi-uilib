@@ -15,6 +15,7 @@ export class UserList extends Container {
     card.position.set(0, yPosition);
     this.cards.push(card);
     this.addChild(card);
+    return card;
   }
 
   removeUser(index: number) {
@@ -24,6 +25,14 @@ export class UserList extends Container {
       this.cards.splice(index, 1);
       this.repositionCards();
     }
+  }
+
+  getCard(index: number): UserCard | undefined {
+    return this.cards[index];
+  }
+
+  get cardCount(): number {
+    return this.cards.length;
   }
 
   private repositionCards() {
