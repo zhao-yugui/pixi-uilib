@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Application } from 'pixi.js';
+import { onMounted } from 'vue';
 
 // #region Pixi Application Init
 const app = new Application();
@@ -18,8 +19,10 @@ const initPixi = async () => {
   document.body.appendChild(app.canvas);
 };
 
-initPixi();
-// #endregion
+// 将异步操作移到 onMounted 中
+onMounted(async () => {
+  await initPixi();
+});
 </script>
 
 <template>
@@ -30,6 +33,8 @@ initPixi();
 
 <style>
 body {
+  margin: 0;
+  padding: 0;
   background-color: #000;
 }
 </style>
